@@ -133,7 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text("None");
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Text("Waiting");
+                return Center(
+                    child: CircularProgressIndicator(),);
               case (ConnectionState.done):
                 //   print(snapshot.data);
                 return Center(
@@ -221,7 +222,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ],
                             ),
-//
                           ),
                         );
                       }),
