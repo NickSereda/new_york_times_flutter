@@ -1,16 +1,7 @@
-# new_york_times_flutter
 
-A new Flutter application.
+# NYTimes newsfeed sample project
 
-## Getting Started
+Newsfeed Flutter sample project with NYTimes API, cubit architecture and sqflite data persistance. Articles are loaded from NYTimes, then saved to the local database (sqlfite package) and displayed in browser on demand (with url_launcher package).
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License  
+[MIT](https://choosealicense.com/licenses/mit/)
