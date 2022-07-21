@@ -10,17 +10,17 @@ class ArticlesCubit extends Cubit<ArticlesState> {
 
   final ArticlesRepositoryImplementation articleRepository;
 
-  ArticlesCubit(this.articleRepository) : super(ArticlesInitial());
+  ArticlesCubit(this.articleRepository) : super(ArticlesState(articles: [], status: ArticlesStatus.initial));
 
   // Getting data, if there is no data - load from nyTimes, otherwise get from database.
   Future<void> getData() async {
-    emit(ArticlesLoading());
+    emit(state.copyWith(status: ArticlesStatus.loading));
 
     try {
       final List<ArticleModel> articles = await articleRepository.getArticles();
-      emit(ArticlesLoaded(articles: articles));
+      emit(state.copyWith(status: ArticlesStatus.loaded, articles: articles));
     } catch (error) {
-      emit(ArticlesError());
+      emit(state.copyWith(status: ArticlesStatus.error));
     }
   }
 

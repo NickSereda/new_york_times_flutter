@@ -1,29 +1,31 @@
 part of 'articles_cubit.dart';
 
-abstract class ArticlesState extends Equatable {
-  const ArticlesState();
-
-  @override
-  List<Object> get props => [];
+enum ArticlesStatus {
+  initial,
+  loading,
+  loaded,
+  error,
 }
 
-class ArticlesInitial extends ArticlesState {
-  const ArticlesInitial();
-}
-
-class ArticlesLoading extends ArticlesState {
-  const ArticlesLoading();
-}
-
-class ArticlesLoaded extends ArticlesState {
+class ArticlesState extends Equatable {
   final List<ArticleModel> articles;
+  final ArticlesStatus status;
 
-  const ArticlesLoaded({required this.articles});
+  const ArticlesState({
+    required this.articles,
+    required this.status,
+  });
 
   @override
-  List<Object> get props => [articles];
-}
+  List<Object> get props => [articles, status];
 
-class ArticlesError extends ArticlesState {
-  const ArticlesError();
+  ArticlesState copyWith({
+    List<ArticleModel>? articles,
+    ArticlesStatus? status,
+  }) {
+    return ArticlesState(
+      articles: articles ?? this.articles,
+      status: status ?? this.status,
+    );
+  }
 }

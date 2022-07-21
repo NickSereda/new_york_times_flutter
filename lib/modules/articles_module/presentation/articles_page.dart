@@ -8,24 +8,23 @@ import 'package:new_york_times_flutter/modules/articles_module/presentation/widg
 class ArticlesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-     ArticlesCubit _articlesCubit = Modular.get<ArticlesCubit>();
+    ArticlesCubit _articlesCubit = Modular.get<ArticlesCubit>();
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Top Stories"),
       ),
-      body:
-      BlocConsumer<ArticlesCubit, ArticlesState>(
+      body: BlocConsumer<ArticlesCubit, ArticlesState>(
         bloc: _articlesCubit,
-        listener: (prevState, currState) {},
+        listener: (context, state) {},
+        buildWhen: (prevState, currState) =>
+            prevState.status != currState.status,
         builder: (context, state) {
-          if (state is ArticlesLoading) {
+          if (state.status == ArticlesStatus.loading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is ArticlesLoaded) {
-
+          if (state.status == ArticlesStatus.loaded) {
             return Center(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
