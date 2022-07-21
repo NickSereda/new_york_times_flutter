@@ -41,10 +41,19 @@ dependencies:
   url_launcher: ^6.1.5
   http: ^0.13.4
 
+  # code gens
+  retrofit: ^3.0.1+1
+  freezed_annotation: 2.0.3
+  json_annotation: 4.5.0
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.2.0
+  retrofit_generator: ^4.0.2
+  freezed: 2.0.3+1
+  json_serializable: 6.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
