@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:new_york_times_flutter/models/article_model.dart';
+import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleListItem extends StatelessWidget {

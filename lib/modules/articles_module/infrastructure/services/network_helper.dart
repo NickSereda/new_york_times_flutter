@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:new_york_times_flutter/models/article_model.dart';
 
 
 class NetworkHelper {

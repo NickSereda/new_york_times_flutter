@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:new_york_times_flutter/keys.dart';
-import 'package:new_york_times_flutter/models/article_model.dart';
-import 'package:new_york_times_flutter/models/multimedia.dart';
-import 'package:new_york_times_flutter/services/database_helper.dart';
-import 'package:new_york_times_flutter/services/network_helper.dart';
+import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/database_helper.dart';
+
+import '../../domain/entities/article_model.dart';
+import '../../domain/entities/multimedia.dart';
+import '../../infrastructure/services/network_helper.dart';
+
 
 part "articles_state.dart";
 

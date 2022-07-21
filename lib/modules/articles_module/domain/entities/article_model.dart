@@ -1,4 +1,5 @@
-import 'package:new_york_times_flutter/models/multimedia.dart';
+
+import 'package:new_york_times_flutter/modules/articles_module/domain/entities/multimedia.dart';
 
 class ArticleModel {
   Multimedia? multimedia;

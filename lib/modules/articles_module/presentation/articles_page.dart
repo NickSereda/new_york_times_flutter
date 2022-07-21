@@ -1,19 +1,23 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_york_times_flutter/cubit/articles_cubit.dart';
-import 'package:new_york_times_flutter/models/article_model.dart';
-import 'package:new_york_times_flutter/widgets/article_list_item.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:new_york_times_flutter/modules/articles_module/application/cubit/articles_cubit.dart';
+import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
+import 'package:new_york_times_flutter/modules/articles_module/presentation/widgets/article_list_item.dart';
 
-class MyHomePage extends StatelessWidget {
+class ArticlesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+     ArticlesCubit _articlesCubit = Modular.get<ArticlesCubit>();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("NYTimes Top Stories"),
+        title: Text("Top Stories"),
       ),
-      body: BlocConsumer<ArticlesCubit, ArticlesState>(
+      body:
+      BlocConsumer<ArticlesCubit, ArticlesState>(
+        bloc: _articlesCubit,
         listener: (prevState, currState) {},
         builder: (context, state) {
           if (state is ArticlesLoading) {
