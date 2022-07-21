@@ -8,13 +8,13 @@ class NetworkHelper {
 
   NetworkHelper({this.url});
 
-  final String url;
+  final String? url;
 
   Future getData() async {
 
     http.Response responce;
 
-    responce = await http.get(url);
+    responce = await http.get(Uri.parse(url!));
 
     //if success
     if (responce.statusCode == 200) {

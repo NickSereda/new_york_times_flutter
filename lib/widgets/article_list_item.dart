@@ -6,15 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 class ArticleListItem extends StatelessWidget {
   final ArticleModel article;
 
-  const ArticleListItem({@required this.article});
+  const ArticleListItem({required this.article});
 
   Future<void> _launchInBrowser(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-        headers: <String, String>{'my_header_key': 'my_header_value'},
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(
+        Uri.parse(url),
       );
     } else {
       throw 'Could not launch $url';
@@ -25,7 +22,7 @@ class ArticleListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        String url = article.url;
+        String url = article.url!;
         _launchInBrowser(url);
       },
       child: Container(
@@ -62,7 +59,7 @@ class ArticleListItem extends StatelessWidget {
                     height: 100,
                     width: 120,
                     child: CachedNetworkImage(
-                      imageUrl: article.multimedia.url,
+                      imageUrl: article.multimedia!.url!,
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -92,7 +89,7 @@ class ArticleListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    article.multimedia.caption,
+                    article.multimedia!.caption!,
                     style: TextStyle(fontSize: 8.5),
                   ),
                 ],

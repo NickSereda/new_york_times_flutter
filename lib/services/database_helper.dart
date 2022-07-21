@@ -20,21 +20,21 @@ class DatabaseHelper {
   static final columnMediaCaption = 'mediaCaption';
 
   // make this a singleton class
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  DatabaseHelper._instance();
+  static final DatabaseHelper instance = DatabaseHelper._instance();
 
   // only have a single app-wide reference to the database
-  static Database _database;
+  static Database? _database;
 
   Future<Database> get database async {
-    if (_database != null) return _database;
+    if (_database != null) return _database!;
     // lazily instantiate the db the first time it is accessed
     _database = await _initDatabase();
-    return _database;
+    return _database!;
   }
 
   // this opens the database (and creates it if it doesn't exist)
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
     return await openDatabase(path,
@@ -43,7 +43,7 @@ class DatabaseHelper {
   }
 
   // SQL code to create the database table
-  Future _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY,
@@ -78,7 +78,7 @@ class DatabaseHelper {
 
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
-  Future<int> queryRowCount() async {
+  Future<int?> queryRowCount() async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }

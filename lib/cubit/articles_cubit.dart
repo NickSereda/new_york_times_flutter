@@ -29,8 +29,7 @@ class ArticlesCubit extends Cubit<ArticlesState> {
       if (allRows.length == 0) {
         print("Rows are empty");
         //fetch from data from nyTimes
-        String url =
-            "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=$nyTimesAPIKey";
+        String url = "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=$nyTimesAPIKey";
 
         final NetworkHelper networkHelper = NetworkHelper(url: url);
 
@@ -64,8 +63,8 @@ class ArticlesCubit extends Cubit<ArticlesState> {
             DatabaseHelper.columnAbstract: articleModel.abstract,
             DatabaseHelper.columnUrl: articleModel.url,
             DatabaseHelper.columnByline: articleModel.byline,
-            DatabaseHelper.columnMediaUrl: articleModel.multimedia.url,
-            DatabaseHelper.columnMediaCaption: articleModel.multimedia.caption,
+            DatabaseHelper.columnMediaUrl: articleModel.multimedia!.url,
+            DatabaseHelper.columnMediaCaption: articleModel.multimedia!.caption,
           };
 
           final id = await _dbHelper.insert(row);
@@ -73,6 +72,7 @@ class ArticlesCubit extends Cubit<ArticlesState> {
         }
 
         emit(ArticlesLoaded(articles: articles));
+
       } else {
         print("Rows have data");
 
@@ -94,7 +94,6 @@ class ArticlesCubit extends Cubit<ArticlesState> {
 
         emit(ArticlesLoaded(articles: articles));
 
-        return articles;
       }
     } catch (error) {
       emit(ArticlesError());

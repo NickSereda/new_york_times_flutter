@@ -1,12 +1,12 @@
 import 'package:new_york_times_flutter/models/multimedia.dart';
 
 class ArticleModel {
-  Multimedia multimedia;
+  Multimedia? multimedia;
 
-  String title;
-  String abstract;
-  String byline;
-  String url;
+  String? title;
+  String? abstract;
+  String? byline;
+  String? url;
 
   ArticleModel({
     this.multimedia,

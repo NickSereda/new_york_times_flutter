@@ -18,7 +18,7 @@ class ArticlesLoading extends ArticlesState {
 class ArticlesLoaded extends ArticlesState {
   final List<ArticleModel> articles;
 
-  const ArticlesLoaded({@required this.articles});
+  const ArticlesLoaded({required this.articles});
 
   @override
   List<Object> get props => [articles];
