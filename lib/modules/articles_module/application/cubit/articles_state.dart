@@ -1,4 +1,6 @@
+
 part of 'articles_cubit.dart';
+
 
 enum ArticlesStatus {
   initial,
@@ -7,25 +9,12 @@ enum ArticlesStatus {
   error,
 }
 
-class ArticlesState extends Equatable {
-  final List<ArticleModel> articles;
-  final ArticlesStatus status;
+@freezed
+class ArticlesState with _$ArticlesState {
 
-  const ArticlesState({
-    required this.articles,
-    required this.status,
-  });
+  const factory ArticlesState({
+    @Default(<ArticleModel>[]) List<ArticleModel> articles,
+    required ArticlesStatus status,
+  }) = _ArticlesState;
 
-  @override
-  List<Object> get props => [articles, status];
-
-  ArticlesState copyWith({
-    List<ArticleModel>? articles,
-    ArticlesStatus? status,
-  }) {
-    return ArticlesState(
-      articles: articles ?? this.articles,
-      status: status ?? this.status,
-    );
-  }
 }
