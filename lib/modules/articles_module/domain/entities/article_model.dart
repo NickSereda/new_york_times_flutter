@@ -10,13 +10,12 @@ part 'article_model.g.dart';
 @freezed
 class ArticleModel with _$ArticleModel {
   const factory ArticleModel({
-  Multimedia? multimedia,
-  String? title,
-  String? abstract,
-  String? byline,
-  String? url,
+    @JsonKey(name: "multimedia") @Default(<Multimedia>[])List<Multimedia> multimedia,
+    @JsonKey(name: "title") String? title,
+    @JsonKey(name: "abstract") String? abstract,
+    @JsonKey(name: "byline") String? byline,
+    @JsonKey(name: "url") String? url,
   }) = _ArticleModel;
-
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) => _$ArticleModelFromJson(json);
 

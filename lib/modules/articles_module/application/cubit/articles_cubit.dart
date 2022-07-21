@@ -17,7 +17,6 @@ class ArticlesCubit extends Cubit<ArticlesState> {
   // Getting data, if there is no data - load from nyTimes, otherwise get from database.
   Future<void> getData() async {
     emit(state.copyWith(status: ArticlesStatus.loading));
-
     try {
       final List<ArticleModel> articles = await articleRepository.getArticles();
       emit(state.copyWith(status: ArticlesStatus.loaded, articles: articles));

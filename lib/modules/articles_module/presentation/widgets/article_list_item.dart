@@ -59,7 +59,7 @@ class ArticleListItem extends StatelessWidget {
                     height: 100,
                     width: 120,
                     child: CachedNetworkImage(
-                      imageUrl: article.multimedia!.url!,
+                      imageUrl: article.multimedia.first.url!,
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -89,7 +89,7 @@ class ArticleListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    article.multimedia!.caption!,
+                    article.multimedia.first.caption!,
                     style: TextStyle(fontSize: 8.5),
                   ),
                 ],

@@ -1,51 +1,33 @@
+import 'dart:developer';
 
-import 'package:new_york_times_flutter/keys.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
+import 'package:new_york_times_flutter/modules/articles_module/domain/entities/articles_result.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/multimedia.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/data_sources/articles_repository.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/database_helper.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/network_helper.dart';
 
 class ArticlesRepositoryImplementation implements ArticlesRepository {
-
   final DatabaseHelper databaseHelper;
 
-  ArticlesRepositoryImplementation(this.databaseHelper);
+  final NetworkHelper networkHelper;
+
+  ArticlesRepositoryImplementation(this.databaseHelper, this.networkHelper);
 
   @override
   Future<List<ArticleModel>> getArticles() async {
-
     //check if database exists and retrieve data from database if so, else download data from NYTimes
     final allRows = await databaseHelper.queryAllRows();
 
-    if (allRows.length == 0) {
-      print("Rows are empty");
-      //fetch from data from nyTimes
-      String url = "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=$nyTimesAPIKey";
+    if (allRows.isEmpty) {
+      log("Rows are empty");
 
-      final NetworkHelper networkHelper = NetworkHelper(url: url);
+      ArticlesResult result = await networkHelper.getData();
 
-      dynamic data;
+      List<ArticleModel> articles = List.empty(growable: true);
 
-      data = await networkHelper.getData();
-
-      print("downloading articles...");
-
-      final int numberOfArticles = data["num_results"];
-
-      List<ArticleModel> articles = [];
-
-      for (var i = 0; i < numberOfArticles; i++) {
-        ArticleModel articleModel = ArticleModel(
-          title: data["results"][i]["title"].toString(),
-          abstract: data["results"][i]["abstract"],
-          url: data["results"][i]["url"].toString(),
-          multimedia: Multimedia(
-            url: data["results"][i]["multimedia"][0]["url"],
-            caption: data["results"][i]["multimedia"][0]["caption"],
-          ),
-          byline: data["results"][i]["byline"].toString(),
-        );
+      for (var i = 0; i < result.numResults; i++) {
+        ArticleModel articleModel = result.articles[i];
 
         articles.add(articleModel);
 
@@ -55,8 +37,9 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
           DatabaseHelper.columnAbstract: articleModel.abstract,
           DatabaseHelper.columnUrl: articleModel.url,
           DatabaseHelper.columnByline: articleModel.byline,
-          DatabaseHelper.columnMediaUrl: articleModel.multimedia!.url,
-          DatabaseHelper.columnMediaCaption: articleModel.multimedia!.caption,
+          DatabaseHelper.columnMediaUrl: articleModel.multimedia.first.url,
+          DatabaseHelper.columnMediaCaption:
+              articleModel.multimedia.first.caption,
         };
 
         final id = await databaseHelper.insert(row);
@@ -66,31 +49,31 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
       return articles;
 
     } else {
-      print("Rows have data");
+      log("Rows have data");
 
-      List<ArticleModel> articles = [];
+      List<ArticleModel> articles = List.empty(growable: true);
 
       //download from database
-      allRows.forEach((row) {
-        articles.add(ArticleModel(
-          title: row["title"],
-          abstract: row["abstract"],
-          byline: row["byline"],
-          url: row["url"],
-          multimedia: Multimedia(
-            url: row["mediaUrl"],
-            caption: row["mediaCaption"],
-          ),
-        ));
-      });
+      allRows.forEach(
+        (row) {
+          articles.add(
+            ArticleModel(
+              title: row["title"],
+              abstract: row["abstract"],
+              byline: row["byline"],
+              url: row["url"],
+              multimedia: [
+                Multimedia(
+                  url: row["mediaUrl"],
+                  caption: row["mediaCaption"],
+                ),
+              ],
+            ),
+          );
+        },
+      );
 
       return articles;
-
     }
-
-
   }
-
-
-
 }

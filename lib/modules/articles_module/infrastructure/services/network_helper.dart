@@ -1,29 +1,17 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:new_york_times_flutter/keys.dart';
+import 'package:new_york_times_flutter/modules/articles_module/domain/entities/articles_result.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:dio/dio.dart';
 
+part 'network_helper.g.dart';
 
+@RestApi(baseUrl: "https://api.nytimes.com/")
+abstract class NetworkHelper {
 
-class NetworkHelper {
+  factory NetworkHelper(Dio dio, {String baseUrl}) = _NetworkHelper;
 
-  NetworkHelper({this.url});
-
-  final String? url;
-
-  Future getData() async {
-
-    http.Response responce;
-
-    responce = await http.get(Uri.parse(url!));
-
-    //if success
-    if (responce.statusCode == 200) {
-
-//      String data = responce.body;
-//      return jsonDecode(data);
-
-      //for String Decoding
-      return jsonDecode(utf8.decode(responce.bodyBytes));
-
-    }
-  }
+  @GET("svc/topstories/v2/world.json?api-key=$nyTimesAPIKey")
+  Future<ArticlesResult> getData();
 }
+
+
