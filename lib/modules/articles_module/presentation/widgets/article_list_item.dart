@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
+import 'package:new_york_times_flutter/modules/articles_module/presentation/widgets/article_cover_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleListItem extends StatelessWidget {
@@ -22,8 +22,10 @@ class ArticleListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        String url = article.url!;
-        _launchInBrowser(url);
+        final String? url = article.url;
+        if (url != null) {
+          _launchInBrowser(url);
+        }
       },
       child: Container(
         padding: EdgeInsets.all(8),
@@ -36,17 +38,20 @@ class ArticleListItem extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (article.title != null)
                     Text(
-                      '${article.title}',
-                      style: TextStyle(fontWeight: FontWeight.w900),
+                      article.title!,
+                      style: Theme.of(context).textTheme.caption,
                     ),
+                    if (article.abstract != null)
                     Text(
-                      '${article.abstract}',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      article.abstract!,
+                      style: Theme.of(context).textTheme.caption,
                     ),
+                    if (article.byline != null)
                     Text(
-                      '${article.byline}',
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      article.byline!,
+                      style: Theme.of(context).textTheme.caption,
                     ),
                   ]),
             ),
@@ -55,43 +60,13 @@ class ArticleListItem extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  Container(
-                    height: 100,
-                    width: 120,
-                    child: CachedNetworkImage(
-                      imageUrl: article.multimedia.first.url!,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: Container(
-                          margin: EdgeInsets.all(25),
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white24,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.black26),
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          Icon(Icons.broken_image),
-                    ),
-                  ),
+                  ArticleItemCoverImage(imageUrl: article.multimedia.first.url!),
                   SizedBox(height: 5),
-                  Text(
-                    article.multimedia.first.caption!,
-                    style: TextStyle(fontSize: 8.5),
-                  ),
+                  if (article.multimedia.first.caption != null)
+                    Text(
+                      article.multimedia.first.caption!,
+                      style: TextStyle(fontSize: 8.5),
+                    ),
                 ],
               ),
             ),

@@ -16,7 +16,11 @@ class ArticlesPage extends StatelessWidget {
       ),
       body: BlocConsumer<ArticlesCubit, ArticlesState>(
         bloc: _articlesCubit,
-        listener: (context, state) {},
+        listenWhen: (prevState, currState) =>
+        prevState.status != currState.status,
+        listener: (context, state) {
+          // Handle errors here
+        },
         buildWhen: (prevState, currState) =>
             prevState.status != currState.status,
         builder: (context, state) {
@@ -27,12 +31,13 @@ class ArticlesPage extends StatelessWidget {
           if (state.status == ArticlesStatus.loaded) {
             return Center(
               child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: state.articles.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final ArticleModel article = state.articles[index];
-                    return ArticleListItem(article: article);
-                  }),
+                scrollDirection: Axis.vertical,
+                itemCount: state.articles.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final ArticleModel article = state.articles[index];
+                  return ArticleListItem(article: article);
+                },
+              ),
             );
           }
           return Container();
