@@ -24,29 +24,9 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
 
       ArticlesResult result = await networkHelper.getData();
 
-      List<ArticleModel> articles = List.empty(growable: true);
+      _insertArticlesInDatabase(result.articles);
 
-      for (var i = 0; i < result.numResults; i++) {
-        ArticleModel articleModel = result.articles[i];
-
-        articles.add(articleModel);
-
-        //saving to database
-        Map<String, dynamic> row = {
-          DatabaseHelper.columnTitle: articleModel.title,
-          DatabaseHelper.columnAbstract: articleModel.abstract,
-          DatabaseHelper.columnUrl: articleModel.url,
-          DatabaseHelper.columnByline: articleModel.byline,
-          DatabaseHelper.columnMediaUrl: articleModel.multimedia.first.url,
-          DatabaseHelper.columnMediaCaption:
-              articleModel.multimedia.first.caption,
-        };
-
-        final id = await databaseHelper.insert(row);
-        print('inserted row id: $id');
-      }
-
-      return articles;
+      return result.articles;
 
     } else {
       log("Rows have data");
@@ -72,8 +52,25 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
           );
         },
       );
-
       return articles;
     }
   }
+
+  Future<void> _insertArticlesInDatabase(List<ArticleModel> articles) async {
+    for (ArticleModel article in articles) {
+      //saving to database
+      Map<String, dynamic> row = {
+        DatabaseHelper.columnTitle: article.title,
+        DatabaseHelper.columnAbstract: article.abstract,
+        DatabaseHelper.columnUrl: article.url,
+        DatabaseHelper.columnByline: article.byline,
+        DatabaseHelper.columnMediaUrl: article.multimedia.first.url,
+        DatabaseHelper.columnMediaCaption:
+        article.multimedia.first.caption,
+      };
+      final id = await databaseHelper.insert(row);
+      log('inserted row id: $id');
+    }
+  }
+
 }
