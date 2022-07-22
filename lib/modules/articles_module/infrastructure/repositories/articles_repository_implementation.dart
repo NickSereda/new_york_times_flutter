@@ -30,28 +30,7 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
 
     } else {
       log("Rows have data");
-
-      List<ArticleModel> articles = List.empty(growable: true);
-
-      //download from database
-      allRows.forEach(
-        (row) {
-          articles.add(
-            ArticleModel(
-              title: row["title"],
-              abstract: row["abstract"],
-              byline: row["byline"],
-              url: row["url"],
-              multimedia: [
-                Multimedia(
-                  url: row["mediaUrl"],
-                  caption: row["mediaCaption"],
-                ),
-              ],
-            ),
-          );
-        },
-      );
+      List<ArticleModel> articles = await _getArticlesFromSQLTable(allRows);
       return articles;
     }
   }
@@ -72,5 +51,33 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
       log('inserted row id: $id');
     }
   }
+
+
+  Future<List<ArticleModel>> _getArticlesFromSQLTable(List rows) async {
+    List<ArticleModel> articles = List.empty(growable: true);
+
+    //download from database
+    rows.forEach(
+          (row) {
+        articles.add(
+          ArticleModel(
+            title: row["title"],
+            abstract: row["abstract"],
+            byline: row["byline"],
+            url: row["url"],
+            multimedia: [
+              Multimedia(
+                url: row["mediaUrl"],
+                caption: row["mediaCaption"],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    return articles;
+  }
+
 
 }
