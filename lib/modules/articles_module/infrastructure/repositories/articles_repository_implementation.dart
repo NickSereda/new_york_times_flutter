@@ -1,18 +1,19 @@
 import 'dart:developer';
 
+import 'package:new_york_times_flutter/keys.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/articles_result.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/multimedia.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/data_sources/articles_repository.dart';
+import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/articles_client.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/database_helper.dart';
-import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/network_helper.dart';
 
 class ArticlesRepositoryImplementation implements ArticlesRepository {
   final DatabaseHelper databaseHelper;
 
-  final NetworkHelper networkHelper;
+  final ArticlesClient articlesClient;
 
-  ArticlesRepositoryImplementation(this.databaseHelper, this.networkHelper);
+  ArticlesRepositoryImplementation(this.databaseHelper, this.articlesClient);
 
   @override
   Future<List<ArticleModel>> getArticles() async {
@@ -22,7 +23,7 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
     if (allRows.isEmpty) {
       log("Rows are empty");
 
-      ArticlesResult result = await networkHelper.getData();
+      ArticlesResult result = await articlesClient.getData(nyTimesAPIKey);
 
       _insertArticlesInDatabase(result.articles);
 
