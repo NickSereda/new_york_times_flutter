@@ -4,13 +4,13 @@ import 'package:dio/dio.dart';
 
 part 'articles_client.g.dart';
 
-@RestApi(baseUrl: "https://api.nytimes.com/")
+@RestApi(baseUrl: "https://api.nytimes.com")
 abstract class ArticlesClient {
 
   factory ArticlesClient(Dio dio, {String baseUrl}) = _ArticlesClient;
 
-  @GET("svc/topstories/v2/world.json?api-key={apiKey}")
-  Future<ArticlesResult> getData(@Path("apiKey") String apiKey);
+  @GET("/svc/topstories/v2/world.json")
+  Future<ArticlesResult> getData(@Query("api-key") String apiKey);
 }
 
 
