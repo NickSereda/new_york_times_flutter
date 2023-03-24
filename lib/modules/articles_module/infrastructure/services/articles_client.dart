@@ -6,11 +6,8 @@ part 'articles_client.g.dart';
 
 @RestApi(baseUrl: "https://api.nytimes.com")
 abstract class ArticlesClient {
-
   factory ArticlesClient(Dio dio, {String baseUrl}) = _ArticlesClient;
 
   @GET("/svc/topstories/v2/world.json")
   Future<ArticlesResult> getData(@Query("api-key") String apiKey);
 }
-
-

@@ -39,20 +39,20 @@ class ArticleListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (article.title != null)
-                    Text(
-                      article.title!,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
+                      Text(
+                        article.title!,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
                     if (article.abstract != null)
-                    Text(
-                      article.abstract!,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
+                      Text(
+                        article.abstract!,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
                     if (article.byline != null)
-                    Text(
-                      article.byline!,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
+                      Text(
+                        article.byline!,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
                   ]),
             ),
             SizedBox(width: 5),
@@ -60,7 +60,8 @@ class ArticleListItem extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  ArticleItemCoverImage(imageUrl: article.multimedia.first.url!),
+                  ArticleItemCoverImage(
+                      imageUrl: article.multimedia.first.url!),
                   SizedBox(height: 5),
                   if (article.multimedia.first.caption != null)
                     Text(

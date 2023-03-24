@@ -8,19 +8,18 @@ import 'package:new_york_times_flutter/modules/articles_module/presentation/arti
 import '../infrastructure/services/database_helper.dart';
 
 class ArticlesModule extends Module {
-
   @override
   List<Bind> get binds => [
-    Bind((i) => Dio((BaseOptions(contentType: "application/json")))),
-    Bind((i) => DatabaseHelper.instance),
-    Bind((i) => ArticlesClient(i())),
-    Bind((i) => ArticlesRepositoryImplementation(i(),i())),
-    Bind((i) => ArticlesCubit(i())..getData()),
-  ];
+        Bind((i) => Dio((BaseOptions(contentType: "application/json")))),
+        Bind((i) => DatabaseHelper.instance),
+        Bind((i) => ArticlesClient(i())),
+        Bind((i) => ArticlesRepositoryImplementation(i(), i())),
+        Bind((i) => ArticlesCubit(i())..getData()),
+      ];
 
   @override
   List<ModularRoute> get routes => [
-    ChildRoute(Modular.initialRoute, child: (context, args) => ArticlesPage()),
-  ];
-
+        ChildRoute(Modular.initialRoute,
+            child: (context, args) => ArticlesPage()),
+      ];
 }

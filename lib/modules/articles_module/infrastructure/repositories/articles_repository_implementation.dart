@@ -21,16 +21,10 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
     final allRows = await databaseHelper.queryAllRows();
 
     if (allRows.isEmpty) {
-      log("Rows are empty");
-
       ArticlesResult result = await articlesClient.getData(nyTimesAPIKey);
-
       _insertArticlesInDatabase(result.articles);
-
       return result.articles;
-
     } else {
-      log("Rows have data");
       List<ArticleModel> articles = await _getArticlesFromSQLTable(allRows);
       return articles;
     }
@@ -45,21 +39,18 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
         DatabaseHelper.columnUrl: article.url,
         DatabaseHelper.columnByline: article.byline,
         DatabaseHelper.columnMediaUrl: article.multimedia.first.url,
-        DatabaseHelper.columnMediaCaption:
-        article.multimedia.first.caption,
+        DatabaseHelper.columnMediaCaption: article.multimedia.first.caption,
       };
       final id = await databaseHelper.insert(row);
       log('inserted row id: $id');
     }
   }
 
-
   Future<List<ArticleModel>> _getArticlesFromSQLTable(List rows) async {
     List<ArticleModel> articles = List.empty(growable: true);
-
     //download from database
     rows.forEach(
-          (row) {
+      (row) {
         articles.add(
           ArticleModel(
             title: row["title"],
@@ -76,9 +67,6 @@ class ArticlesRepositoryImplementation implements ArticlesRepository {
         );
       },
     );
-
     return articles;
   }
-
-
 }
