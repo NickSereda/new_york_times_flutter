@@ -4,16 +4,19 @@ import 'package:new_york_times_flutter/keys.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/article_model.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/articles_result.dart';
 import 'package:new_york_times_flutter/modules/articles_module/domain/entities/multimedia.dart';
-import 'package:new_york_times_flutter/modules/articles_module/infrastructure/data_sources/articles_repository.dart';
+import 'package:new_york_times_flutter/modules/articles_module/infrastructure/data_sources/i_articles_repository.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/articles_client.dart';
 import 'package:new_york_times_flutter/modules/articles_module/infrastructure/services/database_helper.dart';
 
-class ArticlesRepositoryImplementation implements ArticlesRepository {
+class ProdArticlesRepository implements IArticlesRepository {
   final DatabaseHelper databaseHelper;
 
   final ArticlesClient articlesClient;
 
-  ArticlesRepositoryImplementation(this.databaseHelper, this.articlesClient);
+  ProdArticlesRepository(
+    this.databaseHelper,
+    this.articlesClient,
+  );
 
   @override
   Future<List<ArticleModel>> getArticles() async {

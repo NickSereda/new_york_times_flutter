@@ -17,7 +17,7 @@ class ArticlesPage extends StatelessWidget {
       body: BlocConsumer<ArticlesCubit, ArticlesState>(
         bloc: _articlesCubit,
         listenWhen: (prevState, currState) =>
-        prevState.status != currState.status,
+            prevState.status != currState.status,
         listener: (context, state) {
           // Handle errors here
         },

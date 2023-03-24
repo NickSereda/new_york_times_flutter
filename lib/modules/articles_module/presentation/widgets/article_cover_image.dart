@@ -35,13 +35,11 @@ class ArticleItemCoverImage extends StatelessWidget {
               margin: EdgeInsets.all(25),
               child: CircularProgressIndicator(
                 backgroundColor: Colors.white24,
-                valueColor:
-                AlwaysStoppedAnimation<Color>(Colors.black26),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black26),
               ),
             ),
           ),
-          errorWidget: (context, url, error) =>
-              Icon(Icons.broken_image),
+          errorWidget: (context, url, error) => Icon(Icons.broken_image),
         ),
       );
     else
